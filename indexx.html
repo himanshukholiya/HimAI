@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic AI Search</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .glow {
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            border-radius: 100%;
+        }
+
+        .glow-1 {
+            animation: glow1 4s linear infinite;
+        }
+
+        .glow-2 {
+            animation: glow2 4s linear infinite;
+            animation-delay: 100ms;
+        }
+
+        .glow-3 {
+            animation: glow3 4s linear infinite;
+            animation-delay: 200ms;
+        }
+
+        .glow-4 {
+            animation: glow4 4s linear infinite;
+            animation-delay: 300ms;
+        }
+
+        @keyframes glow1 {
+            0% { transform: translate(10%, 10%) scale(1); }
+            25% { transform: translate(-10%, 10%) scale(1); }
+            50% { transform: translate(-10%, -10%) scale(1); }
+            75% { transform: translate(10%, -10%) scale(1); }
+            100% { transform: translate(10%, 10%) scale(1); }
+        }
+
+        @keyframes glow2 {
+            0% { transform: translate(-10%, -10%) scale(1); }
+            25% { transform: translate(10%, -10%) scale(1); }
+            50% { transform: translate(10%, 10%) scale(1); }
+            75% { transform: translate(-10%, 10%) scale(1); }
+            100% { transform: translate(-10%, -10%) scale(1); }
+        }
+
+        @keyframes glow3 {
+            0% { transform: translate(-10%, 10%) scale(1); }
+            25% { transform: translate(-10%, -10%) scale(1); }
+            50% { transform: translate(10%, -10%) scale(1); }
+            75% { transform: translate(10%, 10%) scale(1); }
+            100% { transform: translate(-10%, 10%) scale(1); }
+        }
+
+        @keyframes glow4 {
+            0% { transform: translate(10%, -10%) scale(1); }
+            25% { transform: translate(10%, 10%) scale(1); }
+            50% { transform: translate(-10%, 10%) scale(1); }
+            75% { transform: translate(-10%, -10%) scale(1); }
+            100% { transform: translate(10%, -10%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen bg-gray-900 flex flex-col justify-center">
+        <div class="relative p-12 w-full sm:max-w-2xl sm:mx-auto">
+            <div class="overflow-hidden z-0 rounded-full relative p-3">
+                <form role="form" class="relative flex z-50 bg-gray-800 rounded-full" onsubmit="event.preventDefault(); sendMessage();">
+                    <input type="text" id="searchBar" placeholder="Ask me anything..." class="rounded-full flex-1 px-6 py-4 text-gray-200 border-2 border-cyan-400 focus:border-cyan-500 focus:outline-none transition duration-300">
+                    <button type="submit" class="bg-cyan-500 text-white rounded-full font-semibold px-8 py-4 hover:bg-cyan-400 focus:bg-cyan-600 focus:outline-none">Search</button>
+                </form>
+                <div class="glow glow-1 z-10 bg-blue-500 absolute"></div>
+                <div class="glow glow-2 z-20 bg-purple-600 absolute"></div>
+                <div class="glow glow-3 z-30 bg-teal-500 absolute"></div>
+                <div class="glow glow-4 z-40 bg-indigo-600 absolute"></div>
+            </div>
+            <div id="response" class="mt-4 text-center text-gray-300"></div>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const question = document.getElementById('searchBar').value;
+
+            if (!question) {
+                alert('Please enter a question.');
+                return;
+            }
+
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerText = 'Loading...';
+
+            try {
+                const response = await fetch('https://your-backend-url.com/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+
+                const data = await response.json();
+                responseDiv.innerText = data.message || 'No response received';
+            } catch (error) {
+                console.error('Error:', error);
+                responseDiv.innerText = 'Error fetching response.';
+            }
+        }
+    </script>
+</body>
+</html>
